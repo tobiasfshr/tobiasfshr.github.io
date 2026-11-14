@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors | Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/authors/</link>
+      <atom:link href="https://tobiasfshr.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
+    <description>Authors</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2023 Tobias Fischer.</copyright><lastBuildDate>Sun, 01 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5c81fc2e5aa61b44b70605dd6084ff4_5712_512x512_fill_lanczos_center_3.png</url>
+      <title>Authors</title>
+      <link>https://tobiasfshr.github.io/authors/</link>
+    </image>
+    
+  </channel>
+</rss>

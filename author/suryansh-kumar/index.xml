@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Suryansh Kumar | Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/author/suryansh-kumar/</link>
+      <atom:link href="https://tobiasfshr.github.io/author/suryansh-kumar/index.xml" rel="self" type="application/rss+xml" />
+    <description>Suryansh Kumar</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2023 Tobias Fischer.</copyright><lastBuildDate>Thu, 01 Dec 2022 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5c81fc2e5aa61b44b70605dd6084ff4_5712_512x512_fill_lanczos_center_3.png</url>
+      <title>Suryansh Kumar</title>
+      <link>https://tobiasfshr.github.io/author/suryansh-kumar/</link>
+    </image>
+    
+    <item>
+      <title>CC-3DT: Panoramic 3D Object Tracking via Cross-Camera Fusion</title>
+      <link>https://tobiasfshr.github.io/pub/cc-3dt/</link>
+      <pubDate>Thu, 01 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/cc-3dt/</guid>
+      <description>&lt;h3 id=&#34;video-overview&#34;&gt;Video Overview&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/CbozK3LmtHQ&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;qualitative-results&#34;&gt;Qualitative Results&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/B-R1wFIcV9E&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+    </item>
+    
+  </channel>
+</rss>

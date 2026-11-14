@@ -1,0 +1,1603 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  
+  
+  <meta name="generator" content="Wowchemy 5.0.0-beta.1 for Hugo">
+  
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Tobias Fischer">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="We present FlowR, a novel pipeline that bridges the gap between sparse and dense 3D reconstruction. Contrary to prior works, we learn a direct mapping between incorrect renderings and their corresponding ground-truth images, augmenting scene captures with consistent novel, generated views to improve reconstruction quality.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://tobiasfshr.github.io/pub/flowr/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/lazysizes.min.js" integrity="sha512-TmDwFLhg3UA4ZG0Eb4MIyT1O1Mb+Oww5kFG0uHqXsdbyZz9DcvYQhKpGgNkamAI6h2lGGZq2X8ftOJvF/XjTUg==" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.min.22e8c0939db72bb739e9a3f9b89d723c.css">
+
+  
+
+
+
+
+  
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_huc5db565a4e209d0e307f1dc04a23a9cc_39802_32x32_fill_lanczos_center_3.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc5db565a4e209d0e307f1dc04a23a9cc_39802_192x192_fill_lanczos_center_3.png">
+
+  <link rel="canonical" href="https://tobiasfshr.github.io/pub/flowr/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="Tobias Fischer">
+  <meta property="og:url" content="https://tobiasfshr.github.io/pub/flowr/">
+  <meta property="og:title" content="FlowR: Flowing from Sparse to Dense 3D Reconstructions | Tobias Fischer">
+  <meta property="og:description" content="We present FlowR, a novel pipeline that bridges the gap between sparse and dense 3D reconstruction. Contrary to prior works, we learn a direct mapping between incorrect renderings and their corresponding ground-truth images, augmenting scene captures with consistent novel, generated views to improve reconstruction quality."><meta property="og:image" content="https://tobiasfshr.github.io/images/icon_huc5db565a4e209d0e307f1dc04a23a9cc_39802_512x512_fill_lanczos_center_3.png">
+  <meta property="twitter:image" content="https://tobiasfshr.github.io/images/icon_huc5db565a4e209d0e307f1dc04a23a9cc_39802_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2025-03-01T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2025-03-01T00:00:00&#43;00:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+<link rel="stylesheet" href="/css/twentytwenty.css"/>
+
+
+  <title>FlowR: Flowing from Sparse to Dense 3D Reconstructions | Tobias Fischer</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper  ">
+
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.js"></script>
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Tobias Fischer</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Tobias Fischer</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    
+
+
+
+
+
+
+
+
+<div class="pub">
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<div class="article-container pt-3">
+<center>
+  <h1>&#127800; FlowR: Flowing from Sparse to Dense 3D Reconstructions</h1>
+
+  
+
+  
+
+
+<div class="article-metadata">
+  
+  <h3>
+    
+    ICCV 2025
+    
+    &#x2728;<i>Highlight Presentation (top 1.6%)</i>&#x2728;
+  </h3>
+  
+
+  
+  
+  
+  
+  <h4>
+    
+
+  <div>
+  <span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Tobias Fischer<sup>1,2</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Samuel Rota Bulò<sup>2</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Yung-Hsu Yang<sup>1</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Nikhil Keetha<sup>2,3</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Lorenzo Porzi<sup>2</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Norman Müller<sup>2</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Katja Schwarz<sup>2</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Jonathon Luiten<sup>2</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Marc Pollefeys<sup>1</sup></span><span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+      Peter Kontschieder<sup>2</sup></span></div>
+  <div style="padding-top: 10px; font-size: small;">
+    
+      <span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+          ETH Zurich<sup>1</sup>
+      </span>
+      <span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+          Meta Reality Labs Zurich<sup>2</sup>
+      </span>
+      <span style="display: inline-block; margin-inline-end: 15px; margin-inline-start: 15px;">
+          CMU<sup>3</sup>
+      </span></div>
+  </h4>
+  
+  
+
+  
+
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+
+</div> 
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+  
+  
+    
+  
+<a class="btn btn-outline-primary my-1 mr-1" href="http://arxiv.org/abs/2504.01647" target="_blank" rel="noopener">
+  <span class="icon">
+      <i class="ai ai-arxiv"></i>
+  </span>
+  ArXiv
+</a>
+
+
+
+
+
+
+  
+    
+  
+
+
+
+
+<a class="btn btn-outline-primary my-1 mr-1" href="http://arxiv.org/pdf/2504.01647" target="_blank" rel="noopener">
+    <span class="icon">
+        <i class="fas fa-file-pdf"></i>
+    </span>
+    PDF
+  </a>
+
+
+
+
+  
+  
+    
+  
+<a class="btn btn-outline-primary my-1 mr-1" href="https://github.com/tobiasfshr/flowr" target="_blank" rel="noopener">
+  <span class="icon">
+    <i class="fab fa-github"></i>
+  </span>
+  Code
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</center>
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 600px; max-height: 338px;">
+  <div style="position: relative">
+    <img src="/pub/flowr/teaser.gif" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+  <div class="article-container">
+
+    
+    <h3> TL;DR </h3>
+    <div class="alert alert-success tldr mb-4">
+     We present FlowR, a novel pipeline that bridges the gap between sparse and dense 3D reconstruction. Contrary to prior works, we learn a direct mapping between incorrect renderings and their corresponding ground-truth images, augmenting scene captures with consistent novel, generated views to improve reconstruction quality.
+    </div>
+    
+
+    
+
+    <div class="article-style"><h3 id="abstract">Abstract</h3>
+<p>3D Gaussian splatting enables high-quality novel view synthesis (NVS) at real-time frame rates. However, its quality drops sharply as we depart from the training views. Thus, dense captures are needed to match the high-quality expectations of applications like Virtual Reality (VR). However, such dense captures are very laborious and expensive to obtain. Existing works have explored using 2D generative models to alleviate this requirement by distillation or generating additional training views. These models typically rely on a noise-to-data generative process conditioned only on a handful of reference input views, leading to hallucinations, inconsistent generation results, and subsequent reconstruction artifacts. Instead, we propose a multi-view, flow matching model that learns a flow to directly connect novel view renderings from possibly sparse reconstructions to renderings that we expect from dense reconstructions. This enables augmenting scene captures with consistent, generated views to improve reconstruction quality. Our model is trained on a novel dataset of 3.6M image pairs and can process up to 45 views at 540x960 resolution (91K tokens) on one H100 GPU in a single forward pass. Our pipeline consistently improves NVS in sparse- and dense-view scenarios, leading to higher-quality reconstructions than prior works across multiple, widely-used NVS benchmarks.</p>
+<h3 id="method">Method</h3>
+<p>FlowR consists of two parts:</p>
+<ul>
+<li>A robust initial reconstruction pipeline based on 3DGS but designed for both sparse- and dense-view settings.</li>
+<li>A data densification procedure, which uses flow matching to generate high-quality extra views which can be used to improve reconstruction.</li>
+</ul>
+<img src="method.jpg" style="width: 100%;"/>
+<h4 id="initial-reconstruction">Initial reconstruction</h4>
+<p>We use MASt3R on a sparse co-visibility graph to estimate tracked correspondences which are then used to triangulate an initial point cloud from which we fit an initial 3DGS representation. We use this to create a dataset of 10.3k reconstructed scenes covering 3.6M pairs of novel view reconstructions with their corresponding ground truth images, on which we train our flow matching model.</p>
+<h4 id="data-densification-via-flow-matching">Data densification via flow matching</h4>
+<p>Flow matching is a paradigm for generative modeling where the model learns a velocity field that can be used to map samples from a noise distribution to samples from the data distribution.
+However, in this work, instead of modeling the velocity field between noise and data, we model the velocity field between the incorrect novel view renderings and the respective real images of that viewpoint:</p>
+<img src="summary.jpg" style="width: 80%;"/>
+<p>Instead of mapping a standard multivariate Gaussian distribution $p_0(\mathbf{z})$ to a (conditional) target distribution $p_1(\mathbf{z}|\mathbf{y})$, we consider <em>source</em> distributions of the form $p_0(\mathbf{z}|\mathbf{y})$. We use novel view renderings of sparse reconstructions as source distribution samples, which we map to the target distribution $p_1(\mathbf{z}|\mathbf{y})$ that represents reconstructions obtained under optimal, dense conditions (i.e. ground truth).</p>
+<p>In this way, if we already have enough dense input images that our initial reconstruction is good enough for a particular view, the flow matching model can simply learn not to change the input. This formulation ensures that the generative model does not generate unnecessary new details that are inconsistent and conflict with existing scene content, and thus results in sharp scene details, avoiding blurred-out averages of inconsistent generations.</p>
+<h3 id="qualitative-comparison">Qualitative comparison</h3>
+<p>We compare FlowR to several baselines on sparse-view 3D reconstructions from DL3DV140. First, we compare to a naive Splatfacto baseline.
+<div class="video-container">
+    
+    <div class="video-thumbnails">
+      
+        <img class="thumbnail active" 
+             src="videos/splatfacto/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/splatfacto/12views/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/splatfacto/12views/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/splatfacto/12views/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/splatfacto/12views/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/splatfacto/12views/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/splatfacto/12views/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/splatfacto\/12views\/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/comparison.mp4', this)">
+      
+    </div>
+
+    
+    <video class="main-video" controls autoplay>
+      <source src="videos/splatfacto/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+
+<style>
+.article-style .video-container img,
+.article-style .video-container video {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-video {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.video-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  justify-content: center;
+}
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.thumbnail.active {
+  border: 2px solid #007bff;
+  box-shadow: 0px 0px 5px #007bff;
+}
+@media (max-width: 600px) {
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .main-video {
+    max-width: 100%;
+  }
+}
+</style>
+
+<script>
+function switchVideo(videoUrl, thumbnail) {
+    
+    const gallery = thumbnail.closest('.video-container');
+
+    
+    const mainVideo = gallery.querySelector(".main-video");
+    const source = mainVideo.querySelector("source");
+
+    
+    source.src = videoUrl;
+    mainVideo.load(); 
+
+    
+    gallery.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
+
+    
+    thumbnail.classList.add('active');
+}
+</script></p>
+<p>Second, we compare FlowR to ViewCrafter, another generative model for view-set augmentation. In constrast to FlowR, ViewCrafter introduces floaters to the reconstruction due to inconsistent (yet visually plausible) view generation.
+<div class="video-container">
+    
+    <div class="video-thumbnails">
+      
+        <img class="thumbnail active" 
+             src="videos/viewcrafter/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/viewcrafter/12views/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/viewcrafter/12views/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/viewcrafter/12views/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/viewcrafter/12views/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/viewcrafter/12views/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/viewcrafter/12views/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/viewcrafter\/12views\/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/comparison.mp4', this)">
+      
+    </div>
+
+    
+    <video class="main-video" controls autoplay>
+      <source src="videos/viewcrafter/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+
+<style>
+.article-style .video-container img,
+.article-style .video-container video {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-video {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.video-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  justify-content: center;
+}
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.thumbnail.active {
+  border: 2px solid #007bff;
+  box-shadow: 0px 0px 5px #007bff;
+}
+@media (max-width: 600px) {
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .main-video {
+    max-width: 100%;
+  }
+}
+</style>
+
+<script>
+function switchVideo(videoUrl, thumbnail) {
+    
+    const gallery = thumbnail.closest('.video-container');
+
+    
+    const mainVideo = gallery.querySelector(".main-video");
+    const source = mainVideo.querySelector("source");
+
+    
+    source.src = videoUrl;
+    mainVideo.load(); 
+
+    
+    gallery.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
+
+    
+    thumbnail.classList.add('active');
+}
+</script></p>
+<p>Third, we compare FlowR&rsquo;s final results after data densification to its initial 3D reconstructions &lsquo;FlowR (Initial)&rsquo;.
+<div class="video-container">
+    
+    <div class="video-thumbnails">
+      
+        <img class="thumbnail active" 
+             src="videos/stage1/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/stage1/12views/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/stage1/12views/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/stage1/12views/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/stage1/12views/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/stage1/12views/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/comparison.mp4', this)">
+      
+        <img class="thumbnail " 
+             src="videos/stage1/12views/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/video-thumbnail.jpg" 
+             onclick="switchVideo('videos\/stage1\/12views\/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/comparison.mp4', this)">
+      
+    </div>
+
+    
+    <video class="main-video" controls autoplay>
+      <source src="videos/stage1/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+</div>
+
+<style>
+.article-style .video-container img,
+.article-style .video-container video {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-video {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.video-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  justify-content: center;
+}
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.thumbnail.active {
+  border: 2px solid #007bff;
+  box-shadow: 0px 0px 5px #007bff;
+}
+@media (max-width: 600px) {
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .main-video {
+    max-width: 100%;
+  }
+}
+</style>
+
+<script>
+function switchVideo(videoUrl, thumbnail) {
+    
+    const gallery = thumbnail.closest('.video-container');
+
+    
+    const mainVideo = gallery.querySelector(".main-video");
+    const source = mainVideo.querySelector("source");
+
+    
+    source.src = videoUrl;
+    mainVideo.load(); 
+
+    
+    gallery.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
+
+    
+    thumbnail.classList.add('active');
+}
+</script></p>
+<p>FlowR removes a substantial amount of reconstruction artifacts.</p>
+</div>
+
+    <div class="article-style"> 
+      
+      
+      
+      <h3>BibTeX</h3>
+      <pre><code>@InProceedings{fischer2025flowr,
+    author    = {Tobias Fischer and Samuel Rota Bul{\`o} and Yung-Hsu Yang and Nikhil Keetha and Lorenzo Porzi and Norman M\"uller and Katja Schwarz and Jonathon Luiten and Marc Pollefeys and Peter Kontschieder},
+    title     = {{FlowR}: Flowing from Sparse to Dense 3D Reconstructions},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    year      = {2025}
+}</code></pre>
+      
+    </div>
+
+    <div class="space-below"></div>
+
+    
+
+
+
+
+
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://tobiasfshr.github.io/pub/flowr/&amp;text=FlowR:%20Flowing%20from%20Sparse%20to%20Dense%203D%20Reconstructions" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://tobiasfshr.github.io/pub/flowr/&amp;t=FlowR:%20Flowing%20from%20Sparse%20to%20Dense%203D%20Reconstructions" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=FlowR:%20Flowing%20from%20Sparse%20to%20Dense%203D%20Reconstructions&amp;body=https://tobiasfshr.github.io/pub/flowr/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://tobiasfshr.github.io/pub/flowr/&amp;title=FlowR:%20Flowing%20from%20Sparse%20to%20Dense%203D%20Reconstructions" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=FlowR:%20Flowing%20from%20Sparse%20to%20Dense%203D%20Reconstructions%20https://tobiasfshr.github.io/pub/flowr/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://tobiasfshr.github.io/pub/flowr/&amp;title=FlowR:%20Flowing%20from%20Sparse%20to%20Dense%203D%20Reconstructions" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://tobiasfshr.github.io/"><img class="avatar mr-3 avatar-circle" src="/author/tobias-fischer/avatar_huffd8588af35073d36d044b7aa5dfda09_465611_270x270_fill_lanczos_center_3.png" alt="Tobias Fischer"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://tobiasfshr.github.io/">Tobias Fischer</a></h5>
+      
+      <p class="card-text">Dr. Tobias Fischer is a Researcher at Apple.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/TobiasFischer11" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=Jp637I8AAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/tobiasfshr" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/tobias-fischer/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+    
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    ©2026 Tobias Fischer.
+  </p>
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+    Published with
+    <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a>  —
+    the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">
+    open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/wowchemy.min.1f593e07056ab3a4467b193ff2d72507.js"></script>
+
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="/js/jquery.twentytwenty.js"></script>
+
+<script>
+$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});
+</script>
+
+
+
+</body>
+</html>

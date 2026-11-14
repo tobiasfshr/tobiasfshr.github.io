@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jiangmiao Pang | Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/author/jiangmiao-pang/</link>
+      <atom:link href="https://tobiasfshr.github.io/author/jiangmiao-pang/index.xml" rel="self" type="application/rss+xml" />
+    <description>Jiangmiao Pang</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2023 Tobias Fischer.</copyright><lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5c81fc2e5aa61b44b70605dd6084ff4_5712_512x512_fill_lanczos_center_3.png</url>
+      <title>Jiangmiao Pang</title>
+      <link>https://tobiasfshr.github.io/author/jiangmiao-pang/</link>
+    </image>
+    
+    <item>
+      <title>QDTrack: Quasi-Dense Similarity Learning for Appearance-Only Multiple Object Tracking</title>
+      <link>https://tobiasfshr.github.io/pub/qdtrack/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/qdtrack/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

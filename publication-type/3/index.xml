@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>3 | Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/publication-type/3/</link>
+      <atom:link href="https://tobiasfshr.github.io/publication-type/3/index.xml" rel="self" type="application/rss+xml" />
+    <description>3</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2026 Tobias Fischer.</copyright><lastBuildDate>Fri, 01 May 2026 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5db565a4e209d0e307f1dc04a23a9cc_39802_512x512_fill_lanczos_center_3.png</url>
+      <title>3</title>
+      <link>https://tobiasfshr.github.io/publication-type/3/</link>
+    </image>
+    
+    <item>
+      <title>Déjà View: Looping Transformers for Multi-View 3D Reconstruction</title>
+      <link>https://tobiasfshr.github.io/pub/deja-view/</link>
+      <pubDate>Fri, 01 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/deja-view/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bastian Leibe | Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/author/bastian-leibe/</link>
+      <atom:link href="https://tobiasfshr.github.io/author/bastian-leibe/index.xml" rel="self" type="application/rss+xml" />
+    <description>Bastian Leibe</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2023 Tobias Fischer.</copyright><lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5c81fc2e5aa61b44b70605dd6084ff4_5712_512x512_fill_lanczos_center_3.png</url>
+      <title>Bastian Leibe</title>
+      <link>https://tobiasfshr.github.io/author/bastian-leibe/</link>
+    </image>
+    
+    <item>
+      <title>Track to Reconstruct and Reconstruct to Track</title>
+      <link>https://tobiasfshr.github.io/pub/motsfusion/</link>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/motsfusion/</guid>
+      <description>&lt;h3 id=&#34;video&#34;&gt;Video&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/PMOYkpBwE78&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+    </item>
+    
+  </channel>
+</rss>

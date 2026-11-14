@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/author/tobias-fischer/</link>
+      <atom:link href="https://tobiasfshr.github.io/author/tobias-fischer/index.xml" rel="self" type="application/rss+xml" />
+    <description>Tobias Fischer</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2023 Tobias Fischer.</copyright><lastBuildDate>Sun, 01 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5c81fc2e5aa61b44b70605dd6084ff4_5712_512x512_fill_lanczos_center_3.png</url>
+      <title>Tobias Fischer</title>
+      <link>https://tobiasfshr.github.io/author/tobias-fischer/</link>
+    </image>
+    
+    <item>
+      <title>R3D3: Dense 3D Reconstruction of Dynamic Scenes from Multiple Cameras</title>
+      <link>https://tobiasfshr.github.io/pub/r3d3/</link>
+      <pubDate>Sun, 01 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/r3d3/</guid>
+      <description>&lt;h3 id=&#34;demonstration-video&#34;&gt;Demonstration Video&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/lkU0lDq9HHw&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>QDTrack: Quasi-Dense Similarity Learning for Appearance-Only Multiple Object Tracking</title>
+      <link>https://tobiasfshr.github.io/pub/qdtrack/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/qdtrack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OVTrack: Open-Vocabulary Multiple Object Tracking</title>
+      <link>https://tobiasfshr.github.io/pub/ovtrack/</link>
+      <pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/ovtrack/</guid>
+      <description>&lt;h4 id=&#34;video-overview&#34;&gt;Video Overview&lt;/h4&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/tMQ_sh0JbpY&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&#34;data-generation-results&#34;&gt;Data Generation Results&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Generated vs. Original&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Generated vs. Original&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;col1.png&#34; alt=&#34;&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;col2.png&#34; alt=&#34;&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;tao-open-vocabulary-mot-test-set&#34;&gt;TAO Open-vocabulary MOT [test set]&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Method&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Classes Base&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Classes Novel&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Data LVIS&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Data TAO&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Base TETA&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Novel TETA&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;QDTrack&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;25.8&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;20.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;TETer&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;29.2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;21.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;DeepSORT (ViLD)&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;24.5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;17.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Tracktor++ (ViLD)&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;26.0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;18.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;OVTrack&lt;/strong&gt; (Ours)&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;✓&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;32.6&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;24.1&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;tao-closed-set-mot-test-set&#34;&gt;TAO Closed-set MOT [test set]&lt;/h3&gt;
+&lt;h4 id=&#34;teta-benchmark&#34;&gt;TETA benchmark&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Method&lt;/th&gt;
+&lt;th&gt;backbone&lt;/th&gt;
+&lt;th&gt;TETA&lt;/th&gt;
+&lt;th&gt;LocA&lt;/th&gt;
+&lt;th&gt;AssocA&lt;/th&gt;
+&lt;th&gt;ClsA&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&#34;https://arxiv.org/abs/2006.06664&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;QDTrack(CVPR21)&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;30.0&lt;/td&gt;
+&lt;td&gt;50.5&lt;/td&gt;
+&lt;td&gt;27.4&lt;/td&gt;
+&lt;td&gt;12.1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&#34;https://arxiv.org/abs/2304.08408&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TETer(ECCV22)&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;33.3&lt;/td&gt;
+&lt;td&gt;51.6&lt;/td&gt;
+&lt;td&gt;35.0&lt;/td&gt;
+&lt;td&gt;13.2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;OVTrack&lt;/strong&gt; (Ours)&lt;/td&gt;
+&lt;td&gt;ResNet-50&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;34.7&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;49.3&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;36.7&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;18.1&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;tao-benchmark&#34;&gt;TAO benchmark&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;TAO benchmark&lt;/th&gt;
+&lt;th&gt;backbone&lt;/th&gt;
+&lt;th&gt;Track AP50&lt;/th&gt;
+&lt;th&gt;Track AP75&lt;/th&gt;
+&lt;th&gt;Track AP&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SORT-TAO (ECCV 20)&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;13.2&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;QDTrack (CVPR21)&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;15.9&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;10.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GTR (CVPR 2022)&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;20.4&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TAC (ECCV 2022 )&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;17.7&lt;/td&gt;
+&lt;td&gt;5.8&lt;/td&gt;
+&lt;td&gt;7.3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BIV (ECCV 2022)&lt;/td&gt;
+&lt;td&gt;ResNet-101&lt;/td&gt;
+&lt;td&gt;19.6&lt;/td&gt;
+&lt;td&gt;7.3&lt;/td&gt;
+&lt;td&gt;13.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;OVTrack&lt;/strong&gt; (Ours)&lt;/td&gt;
+&lt;td&gt;ResNet-50&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;21.2&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;10.6&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;15.9&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CC-3DT: Panoramic 3D Object Tracking via Cross-Camera Fusion</title>
+      <link>https://tobiasfshr.github.io/pub/cc-3dt/</link>
+      <pubDate>Thu, 01 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/cc-3dt/</guid>
+      <description>&lt;h3 id=&#34;video-overview&#34;&gt;Video Overview&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/CbozK3LmtHQ&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;qualitative-results&#34;&gt;Qualitative Results&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/B-R1wFIcV9E&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Monocular Quasi-Dense 3D Object Tracking</title>
+      <link>https://tobiasfshr.github.io/pub/qd-3dt/</link>
+      <pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/qd-3dt/</guid>
+      <description>&lt;h3 id=&#34;video&#34;&gt;Video&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/VnbeIwJCHlk&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Track to Reconstruct and Reconstruct to Track</title>
+      <link>https://tobiasfshr.github.io/pub/motsfusion/</link>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/motsfusion/</guid>
+      <description>&lt;h3 id=&#34;video&#34;&gt;Video&lt;/h3&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;https://www.youtube.com/embed/PMOYkpBwE78&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1093 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Publications | Tobias Fischer</title>
+    <link>https://tobiasfshr.github.io/pub/</link>
+      <atom:link href="https://tobiasfshr.github.io/pub/index.xml" rel="self" type="application/rss+xml" />
+    <description>Publications</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>©2026 Tobias Fischer.</copyright><lastBuildDate>Fri, 01 May 2026 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tobiasfshr.github.io/images/icon_huc5db565a4e209d0e307f1dc04a23a9cc_39802_512x512_fill_lanczos_center_3.png</url>
+      <title>Publications</title>
+      <link>https://tobiasfshr.github.io/pub/</link>
+    </image>
+    
+    <item>
+      <title>Déjà View: Looping Transformers for Multi-View 3D Reconstruction</title>
+      <link>https://tobiasfshr.github.io/pub/deja-view/</link>
+      <pubDate>Fri, 01 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/deja-view/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ArtiFixer: Enhancing and Extending 3D Reconstruction with Auto-Regressive Diffusion Models</title>
+      <link>https://tobiasfshr.github.io/pub/artifixer/</link>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/artifixer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MapAnything: Universal Feed-Forward Metric 3D Reconstruction</title>
+      <link>https://tobiasfshr.github.io/pub/map-anything/</link>
+      <pubDate>Tue, 16 Sep 2025 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/map-anything/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FlowR: Flowing from Sparse to Dense 3D Reconstructions</title>
+      <link>https://tobiasfshr.github.io/pub/flowr/</link>
+      <pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/flowr/</guid>
+      <description>&lt;h3 id=&#34;abstract&#34;&gt;Abstract&lt;/h3&gt;
+&lt;p&gt;3D Gaussian splatting enables high-quality novel view synthesis (NVS) at real-time frame rates. However, its quality drops sharply as we depart from the training views. Thus, dense captures are needed to match the high-quality expectations of applications like Virtual Reality (VR). However, such dense captures are very laborious and expensive to obtain. Existing works have explored using 2D generative models to alleviate this requirement by distillation or generating additional training views. These models typically rely on a noise-to-data generative process conditioned only on a handful of reference input views, leading to hallucinations, inconsistent generation results, and subsequent reconstruction artifacts. Instead, we propose a multi-view, flow matching model that learns a flow to directly connect novel view renderings from possibly sparse reconstructions to renderings that we expect from dense reconstructions. This enables augmenting scene captures with consistent, generated views to improve reconstruction quality. Our model is trained on a novel dataset of 3.6M image pairs and can process up to 45 views at 540x960 resolution (91K tokens) on one H100 GPU in a single forward pass. Our pipeline consistently improves NVS in sparse- and dense-view scenarios, leading to higher-quality reconstructions than prior works across multiple, widely-used NVS benchmarks.&lt;/p&gt;
+&lt;h3 id=&#34;method&#34;&gt;Method&lt;/h3&gt;
+&lt;p&gt;FlowR consists of two parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A robust initial reconstruction pipeline based on 3DGS but designed for both sparse- and dense-view settings.&lt;/li&gt;
+&lt;li&gt;A data densification procedure, which uses flow matching to generate high-quality extra views which can be used to improve reconstruction.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;method.jpg&#34; style=&#34;width: 100%;&#34;/&gt;
+&lt;h4 id=&#34;initial-reconstruction&#34;&gt;Initial reconstruction&lt;/h4&gt;
+&lt;p&gt;We use MASt3R on a sparse co-visibility graph to estimate tracked correspondences which are then used to triangulate an initial point cloud from which we fit an initial 3DGS representation. We use this to create a dataset of 10.3k reconstructed scenes covering 3.6M pairs of novel view reconstructions with their corresponding ground truth images, on which we train our flow matching model.&lt;/p&gt;
+&lt;h4 id=&#34;data-densification-via-flow-matching&#34;&gt;Data densification via flow matching&lt;/h4&gt;
+&lt;p&gt;Flow matching is a paradigm for generative modeling where the model learns a velocity field that can be used to map samples from a noise distribution to samples from the data distribution.
+However, in this work, instead of modeling the velocity field between noise and data, we model the velocity field between the incorrect novel view renderings and the respective real images of that viewpoint:&lt;/p&gt;
+&lt;img src=&#34;summary.jpg&#34; style=&#34;width: 80%;&#34;/&gt;
+&lt;p&gt;Instead of mapping a standard multivariate Gaussian distribution $p_0(\mathbf{z})$ to a (conditional) target distribution $p_1(\mathbf{z}|\mathbf{y})$, we consider &lt;em&gt;source&lt;/em&gt; distributions of the form $p_0(\mathbf{z}|\mathbf{y})$. We use novel view renderings of sparse reconstructions as source distribution samples, which we map to the target distribution $p_1(\mathbf{z}|\mathbf{y})$ that represents reconstructions obtained under optimal, dense conditions (i.e. ground truth).&lt;/p&gt;
+&lt;p&gt;In this way, if we already have enough dense input images that our initial reconstruction is good enough for a particular view, the flow matching model can simply learn not to change the input. This formulation ensures that the generative model does not generate unnecessary new details that are inconsistent and conflict with existing scene content, and thus results in sharp scene details, avoiding blurred-out averages of inconsistent generations.&lt;/p&gt;
+&lt;h3 id=&#34;qualitative-comparison&#34;&gt;Qualitative comparison&lt;/h3&gt;
+&lt;p&gt;We compare FlowR to several baselines on sparse-view 3D reconstructions from DL3DV140. First, we compare to a naive Splatfacto baseline.
+&lt;div class=&#34;video-container&#34;&gt;
+    
+    &lt;div class=&#34;video-thumbnails&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail active&#34; 
+             src=&#34;videos/splatfacto/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/splatfacto/12views/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/splatfacto/12views/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/splatfacto/12views/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/splatfacto/12views/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/splatfacto/12views/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/splatfacto/12views/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/splatfacto\/12views\/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/comparison.mp4&#39;, this)&#34;&gt;
+      
+    &lt;/div&gt;
+
+    
+    &lt;video class=&#34;main-video&#34; controls autoplay&gt;
+      &lt;source src=&#34;videos/splatfacto/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4&#34; type=&#34;video/mp4&#34;&gt;
+      Your browser does not support the video tag.
+    &lt;/video&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+.article-style .video-container img,
+.article-style .video-container video {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-video {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.video-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  justify-content: center;
+}
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.thumbnail.active {
+  border: 2px solid #007bff;
+  box-shadow: 0px 0px 5px #007bff;
+}
+@media (max-width: 600px) {
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .main-video {
+    max-width: 100%;
+  }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+function switchVideo(videoUrl, thumbnail) {
+    
+    const gallery = thumbnail.closest(&#39;.video-container&#39;);
+
+    
+    const mainVideo = gallery.querySelector(&#34;.main-video&#34;);
+    const source = mainVideo.querySelector(&#34;source&#34;);
+
+    
+    source.src = videoUrl;
+    mainVideo.load(); 
+
+    
+    gallery.querySelectorAll(&#39;.thumbnail&#39;).forEach(el =&gt; el.classList.remove(&#39;active&#39;));
+
+    
+    thumbnail.classList.add(&#39;active&#39;);
+}
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Second, we compare FlowR to ViewCrafter, another generative model for view-set augmentation. In constrast to FlowR, ViewCrafter introduces floaters to the reconstruction due to inconsistent (yet visually plausible) view generation.
+&lt;div class=&#34;video-container&#34;&gt;
+    
+    &lt;div class=&#34;video-thumbnails&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail active&#34; 
+             src=&#34;videos/viewcrafter/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/viewcrafter/12views/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/viewcrafter/12views/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/viewcrafter/12views/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/viewcrafter/12views/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/viewcrafter/12views/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/viewcrafter/12views/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/viewcrafter\/12views\/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/comparison.mp4&#39;, this)&#34;&gt;
+      
+    &lt;/div&gt;
+
+    
+    &lt;video class=&#34;main-video&#34; controls autoplay&gt;
+      &lt;source src=&#34;videos/viewcrafter/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4&#34; type=&#34;video/mp4&#34;&gt;
+      Your browser does not support the video tag.
+    &lt;/video&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+.article-style .video-container img,
+.article-style .video-container video {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-video {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.video-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  justify-content: center;
+}
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.thumbnail.active {
+  border: 2px solid #007bff;
+  box-shadow: 0px 0px 5px #007bff;
+}
+@media (max-width: 600px) {
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .main-video {
+    max-width: 100%;
+  }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+function switchVideo(videoUrl, thumbnail) {
+    
+    const gallery = thumbnail.closest(&#39;.video-container&#39;);
+
+    
+    const mainVideo = gallery.querySelector(&#34;.main-video&#34;);
+    const source = mainVideo.querySelector(&#34;source&#34;);
+
+    
+    source.src = videoUrl;
+    mainVideo.load(); 
+
+    
+    gallery.querySelectorAll(&#39;.thumbnail&#39;).forEach(el =&gt; el.classList.remove(&#39;active&#39;));
+
+    
+    thumbnail.classList.add(&#39;active&#39;);
+}
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;Third, we compare FlowR&amp;rsquo;s final results after data densification to its initial 3D reconstructions &amp;lsquo;FlowR (Initial)&amp;rsquo;.
+&lt;div class=&#34;video-container&#34;&gt;
+    
+    &lt;div class=&#34;video-thumbnails&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail active&#34; 
+             src=&#34;videos/stage1/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/stage1/12views/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/df4f9d9a0adfc54c49607bc792be6ed6f751b67e37c588472ea58b0d898310dd/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/stage1/12views/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/7da3db99059a436adf537bc23309a6a4db9e011696d086f3a64037f7497d9df7/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/stage1/12views/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/0853979305f7ecb80bd8fc2c8df916410d471ef04ed5f1a64e9651baa41d7695/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/stage1/12views/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/dac9796dd69e1c25277e29d7e30af4f21e3b575d62a0a208c2b3d1211e2d5d77/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/stage1/12views/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/f004c810d94bac93f527606a2ff859d646f99fcac0868c6c6905b29c718fa37b/comparison.mp4&#39;, this)&#34;&gt;
+      
+        &lt;img class=&#34;thumbnail &#34; 
+             src=&#34;videos/stage1/12views/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/video-thumbnail.jpg&#34; 
+             onclick=&#34;switchVideo(&#39;videos\/stage1\/12views\/71b2dc8a2aa553da09b8b94b9f0d5e8abcca307def74d26301616ee238464d46/comparison.mp4&#39;, this)&#34;&gt;
+      
+    &lt;/div&gt;
+
+    
+    &lt;video class=&#34;main-video&#34; controls autoplay&gt;
+      &lt;source src=&#34;videos/stage1/12views/6e11e7f4fea305c7c4658d2c1f8df29e6f299330860cf48ffbf1c5ff8b96c0a8/comparison.mp4&#34; type=&#34;video/mp4&#34;&gt;
+      Your browser does not support the video tag.
+    &lt;/video&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+.article-style .video-container img,
+.article-style .video-container video {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-video {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.video-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  justify-content: center;
+}
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+.thumbnail.active {
+  border: 2px solid #007bff;
+  box-shadow: 0px 0px 5px #007bff;
+}
+@media (max-width: 600px) {
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+  .main-video {
+    max-width: 100%;
+  }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+function switchVideo(videoUrl, thumbnail) {
+    
+    const gallery = thumbnail.closest(&#39;.video-container&#39;);
+
+    
+    const mainVideo = gallery.querySelector(&#34;.main-video&#34;);
+    const source = mainVideo.querySelector(&#34;source&#34;);
+
+    
+    source.src = videoUrl;
+    mainVideo.load(); 
+
+    
+    gallery.querySelectorAll(&#39;.thumbnail&#39;).forEach(el =&gt; el.classList.remove(&#39;active&#39;));
+
+    
+    thumbnail.classList.add(&#39;active&#39;);
+}
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;FlowR removes a substantial amount of reconstruction artifacts.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Dynamic 3D Gaussian Fields for Urban Areas</title>
+      <link>https://tobiasfshr.github.io/pub/4dgf/</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/4dgf/</guid>
+      <description>&lt;h3 id=&#34;demo&#34;&gt;Demo&lt;/h3&gt;
+&lt;video width=&#34;100%&#34; controls&gt;
+  &lt;source src=&#34;demo.mp4&#34; type=&#34;video/mp4&#34;&gt;
+Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;p&gt;We render a novel free-form trajectory across five highly diverse sequences &lt;em&gt;using the same model&lt;/em&gt;. We obtain the trajectory by interpolating between keyframes selected throughout a common geographic area at a constant speed of 10 m/s. We render each sequence with its unique apperance and set of dynamic objects, simulating various distinct traffic scenarios.&lt;/p&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+
+
+    
+    &lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/D_4gRO04jNs?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;
+      &gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+&lt;h4 id=&#34;what&#34;&gt;What?&lt;/h4&gt;
+&lt;p&gt;We propose 4DGF, a neural scene representation that scales to large-scale &lt;em&gt;dynamic&lt;/em&gt; urban areas, handles &lt;em&gt;heterogeneous&lt;/em&gt; input data, and substantially improves rendering speeds.&lt;/p&gt;
+&lt;h4 id=&#34;why&#34;&gt;Why?&lt;/h4&gt;
+&lt;p&gt;Recently, 3D Gaussian Splatting has achieved high-quality novel view synthesis at impressive speeds. However, it is limited to small-scale, &lt;em&gt;homogeneous&lt;/em&gt; data, i.e. it cannot handle severe appearance and geometry variations due to weather, season, and lighting and does not scale to larger, dynamic areas with thousands of images.&lt;/p&gt;
+&lt;h4 id=&#34;how&#34;&gt;How?&lt;/h4&gt;
+&lt;p&gt;We use 3D Gaussians as an efficient geometry scaffold while relying on neural fields as a compact and flexible appearance model. We integrate scene dynamics via a scene graph at global scale while modeling articulated motions on a local level via deformations.&lt;/p&gt;
+&lt;p&gt;In experiments, we surpass the state-of-the-art by over 3 dB in PSNR and more than 100x in rendering speed.&lt;/p&gt;
+&lt;h3 id=&#34;method&#34;&gt;Method&lt;/h3&gt;
+&lt;img src=&#34;method.jpg&#34; style=&#34;width: 100%;&#34;/&gt;
+&lt;p&gt;We use sets of 3D Gaussians $G$ as geometry scaffold, neural fields $\phi$ and $\psi$ to represent sequence- and object-specific appearance and geometry variations, and a scene graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ to express the scene configuration at each sequence-time pair $(s, t)$. We condition the neural fields with latent codes $\omega$ of the nodes in $\mathcal{V}$. To render a view at $(s, t)$, we compose the sets of 3D Gaussians using the coordinate system transformations $[\mathbf{R} | \mathbf{t}]$ along the edges $\mathcal{E}$.&lt;/p&gt;
+&lt;h3 id=&#34;comparison-to-state-of-the-art&#34;&gt;Comparison to state-of-the-art&lt;/h3&gt;
+&lt;p&gt;Our approach outperforms prior art by a significant margin on both established and our proposed benchmark while being faster in training and rendering. We provide qualitative illustrations below. Note that all results are rendered from a &lt;em&gt;single&lt;/em&gt; model trained on &lt;em&gt;multiple&lt;/em&gt; sequences.&lt;/p&gt;
+&lt;div style=&#34;display: flex;&#34;&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+    &lt;img src=&#34;comparison/ml_nsg/00156_rgb.jpg&#34; alt=&#34;ML-NSG&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/ours/00156_rgb.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/gt/00156_rgb.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+      &lt;img src=&#34;comparison/ml_nsg/00156_depth.jpg&#34; alt=&#34;ML-NSG&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/ours/00156_depth.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/gt/00156_depth.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&#34;display: flex;&#34;&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+    &lt;img src=&#34;comparison/ml_nsg/00475_rgb.jpg&#34; alt=&#34;ML-NSG&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/ours/00475_rgb.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/gt/00475_rgb.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+      &lt;img src=&#34;comparison/ml_nsg/00475_depth.jpg&#34; alt=&#34;ML-NSG&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/ours/00475_depth.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/gt/00475_depth.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&#34;display: flex;&#34;&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+    &lt;img src=&#34;comparison/ml_nsg/00766_rgb.jpg&#34; alt=&#34;ML-NSG&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/ours/00766_rgb.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/gt/00766_rgb.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+      &lt;img src=&#34;comparison/ml_nsg/00766_depth.jpg&#34; alt=&#34;ML-NSG&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/ours/00766_depth.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/gt/00766_depth.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;single-sequence-results&#34;&gt;Single-Sequence Results&lt;/h3&gt;
+&lt;p&gt;We show results on the Waymo Open dataset when training on a &lt;em&gt;single&lt;/em&gt; sequence as in other contemporary methods. We synthesize novel views along the initial ego-vehicle path in a spiral.
+&lt;video width=&#34;100%&#34; controls&gt;
+&lt;source src=&#34;results_spiral/segment-12339284075576056695_1920_000_1940_000_rgb.mp4&#34; type=&#34;video/mp4&#34;&gt;
+Your browser does not support the video tag.
+&lt;/video&gt;&lt;/p&gt;
+&lt;video width=&#34;100%&#34; controls&gt;
+  &lt;source src=&#34;results_spiral/segment-10231929575853664160_1160_000_1180_000_rgb.mp4&#34; type=&#34;video/mp4&#34;&gt;
+Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;video width=&#34;100%&#34; controls&gt;
+  &lt;source src=&#34;results_spiral/segment-990914685337955114_980_000_1000_000_rgb.mp4&#34; type=&#34;video/mp4&#34;&gt;
+Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;h3 id=&#34;poster&#34;&gt;Poster&lt;/h3&gt;
+&lt;script type=&#34;text/javascript&#34; src= &#39;/js/pdf-js/build/pdf.js&#39;&gt;&lt;/script&gt;
+
+&lt;style&gt;
+  #embed-pdf-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 20vh;
+     
+  }
+  
+  .pdf-canvas {
+    border: 1px solid black;
+    direction: ltr;
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+  
+  #the-canvas {
+    border: 1px solid black;
+    direction: ltr;
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+  
+  
+  .pdf-loadingWrapper {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 350px;
+  }
+  
+  .pdf-loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #d2d0d0;;
+    border-radius: 50%;
+    border-top-color: #383838;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+  
+  
+  
+  
+  
+  #overlayText {
+    word-wrap: break-word;
+    display: grid;
+    justify-content: end;
+  }
+  
+  #overlayText a {
+    position: relative;
+    top: 10px;
+    right: 4px;
+    color: #000;
+    margin: auto;
+    background-color: #eeeeee;
+    padding: 0.3em 1em;
+    border: solid 2px;
+    border-radius: 12px;
+    border-color: #00000030;
+    text-decoration: none;
+  }
+  
+  #overlayText svg {
+    height: clamp(1em, 2vw, 1.4em);
+    width:  clamp(1em, 2vw, 1.4em);
+  }
+  
+  
+  
+  @keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  @-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  &lt;/style&gt;&lt;div class=&#34;embed-pdf-container&#34; id=&#34;embed-pdf-container-02052118&#34;&gt;
+    &lt;div class=&#34;pdf-loadingWrapper&#34; id=&#34;pdf-loadingWrapper-02052118&#34;&gt;
+        &lt;div class=&#34;pdf-loading&#34; id=&#34;pdf-loading-02052118&#34;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&#34;overlayText&#34;&gt;
+      &lt;a href=&#34;poster.pdf&#34; aria-label=&#34;Download&#34; download&gt;
+        &lt;svg aria-hidden=&#34;true&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 18 18&#34;&gt;
+            &lt;path d=&#34;M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z&#34; /&gt;
+        &lt;/svg&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;canvas class=&#34;pdf-canvas&#34; id=&#34;pdf-canvas-02052118&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;pdf-paginator&#34; id=&#34;pdf-paginator-02052118&#34;&gt;
+    &lt;button id=&#34;pdf-prev-02052118&#34;&gt;Previous&lt;/button&gt;
+    &lt;button id=&#34;pdf-next-02052118&#34;&gt;Next&lt;/button&gt; &amp;nbsp; &amp;nbsp;
+    &lt;span&gt;
+      &lt;span class=&#34;pdf-pagenum&#34; id=&#34;pdf-pagenum-02052118&#34;&gt;&lt;/span&gt; / &lt;span class=&#34;pdf-pagecount&#34; id=&#34;pdf-pagecount-02052118&#34;&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;a class=&#34;pdf-source&#34; id=&#34;pdf-source-02052118&#34; href=&#34;poster.pdf&#34;&gt;[pdf]&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;noscript&gt;
+View the PDF file &lt;a class=&#34;pdf-source&#34; id=&#34;pdf-source-noscript-02052118&#34; href=&#34;poster.pdf&#34;&gt;here&lt;/a&gt;.
+&lt;/noscript&gt;
+
+&lt;script type=&#34;text/javascript&#34;&gt;
+    (function(){
+    var url = &#39;poster.pdf&#39;;
+
+    var hidePaginator = &#34;true&#34; === &#34;true&#34;;
+    var hideLoader = &#34;true&#34; === &#34;true&#34;;
+    var selectedPageNum = parseInt(&#34;&#34;) || 1;
+
+    
+    var pdfjsLib = window[&#39;pdfjs-dist/build/pdf&#39;];
+
+    
+    if (pdfjsLib.GlobalWorkerOptions.workerSrc == &#39;&#39;)
+      pdfjsLib.GlobalWorkerOptions.workerSrc = &#34;https:\/\/tobiasfshr.github.io\/&#34; + &#39;js/pdf-js/build/pdf.worker.js&#39;;
+
+    
+    var pdfDoc = null,
+        pageNum = selectedPageNum,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 3,
+        canvas = document.getElementById(&#39;pdf-canvas-02052118&#39;),
+        ctx = canvas.getContext(&#39;2d&#39;),
+        paginator = document.getElementById(&#34;pdf-paginator-02052118&#34;),
+        loadingWrapper = document.getElementById(&#39;pdf-loadingWrapper-02052118&#39;);
+
+
+    
+    showPaginator();
+    showLoader();
+
+    
+
+    function renderPage(num) {
+      pageRendering = true;
+      
+      pdfDoc.getPage(num).then(function(page) {
+        var viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        
+        var renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        
+        renderTask.promise.then(function() {
+          pageRendering = false;
+          showContent();
+
+          if (pageNumPending !== null) {
+            
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      
+      document.getElementById(&#39;pdf-pagenum-02052118&#39;).textContent = num;
+    }
+
+    
+
+    function showContent() {
+      loadingWrapper.style.display = &#39;none&#39;;
+      canvas.style.display = &#39;block&#39;;
+    }
+
+    
+
+    function showLoader() {
+      if(hideLoader) return
+      loadingWrapper.style.display = &#39;flex&#39;;
+      canvas.style.display = &#39;none&#39;;
+    }
+
+    
+
+    function showPaginator() {
+      if(hidePaginator) return
+      paginator.style.display = &#39;block&#39;;
+    }
+
+    
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    
+
+    function onPrevPage() {
+      if (pageNum &lt;= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById(&#39;pdf-prev-02052118&#39;).addEventListener(&#39;click&#39;, onPrevPage);
+
+    
+
+    function onNextPage() {
+      if (pageNum &gt;= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById(&#39;pdf-next-02052118&#39;).addEventListener(&#39;click&#39;, onNextPage);
+
+    
+
+    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+      pdfDoc = pdfDoc_;
+      var numPages = pdfDoc.numPages;
+      document.getElementById(&#39;pdf-pagecount-02052118&#39;).textContent = numPages;
+
+      
+      if(pageNum &gt; numPages) {
+        pageNum = numPages
+      }
+
+      
+      renderPage(pageNum);
+    });
+    })();
+&lt;/script&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Multi-Level Neural Scene Graphs for Dynamic Urban Environments</title>
+      <link>https://tobiasfshr.github.io/pub/ml-nsg/</link>
+      <pubDate>Sat, 01 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/ml-nsg/</guid>
+      <description>&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+
+
+    
+    &lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/YKZZHNQ8sII?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;
+      &gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+&lt;h4 id=&#34;what&#34;&gt;What?&lt;/h4&gt;
+&lt;p&gt;We estimate the radiance field of large-scale dynamic areas from multiple vehicle captures under varying environmental conditions.&lt;/p&gt;
+&lt;h4 id=&#34;why&#34;&gt;Why?&lt;/h4&gt;
+&lt;p&gt;Previous works in this domain are either restricted to &lt;em&gt;static environments&lt;/em&gt;, &lt;em&gt;do not scale&lt;/em&gt; to more than a single short video, or &lt;em&gt;struggle to separately represent dynamic object&lt;/em&gt; instances.&lt;/p&gt;
+&lt;h4 id=&#34;how&#34;&gt;How?&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;We present a &lt;em&gt;decomposable multi-level neural scene graph representation&lt;/em&gt; that scales to dynamic urban environments with thousands of images from dozens of sequences with hundreds of fast-moving objects.
+&lt;img alt=&#34;image&#34; src=&#34;https://tobiasfshr.github.io/pub/ml-nsg/overview.jpg&#34;&gt;
+Each dynamic object $v_o$ is associated with a sequence node $v_s^t$ and time $t$. The sequence nodes are registered in a common world frame at the root node $v_r$ through the vehicle poses $\mathbf{P}_s^t$, while the dynamic objects are localized w.r.t. the sequence node with pose $\xi^t$. Each camera $c$ is associated with an ego-vehicle position, \ie node $v_s^t$, through the extrinsic calibration $\mathbf{T}_c$. The sequence and object nodes hold latent codes $\omega$ that condition the radiance field, synthesizing novel views in various conditions with distinct dynamic objects.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To enable efficient training and rendering, we develop a fast &lt;em&gt;composite ray sampling and rendering&lt;/em&gt; scheme.
+&lt;img src=&#34;ray_sampling.jpg&#34; style=&#34;width: 50%;&#34;/&gt;
+If a ray intersects with an object $v_o$, we sample from both an efficient proposal network $\sigma_\text{prop}$ and a dynamic radiance field $\psi$. We condition each with the latents $\omega$ of the respective nodes. The PDF along the ray is a mixture of all node densities that intersect with the ray. The transmittance $U$ drops at the first surface intersection (tree) where further samples will concentrate.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To test our approach in urban driving scenarios, we introduce a &lt;em&gt;new, novel view synthesis benchmark&lt;/em&gt;.
+&lt;img src=&#34;av2_bevs.jpg&#34; style=&#34;width: 70%;&#34;/&gt;
+We choose two urban geographic areas, one residential (left) and one downtown (right). We extract sequences with heterogeneous capturing conditions from these areas using Argoverse 2 as data source. We improve the initial GPS-based alignment with an offline ICP procedure.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;comparison-to-state-of-the-art&#34;&gt;Comparison to state-of-the-art&lt;/h3&gt;
+&lt;p&gt;Our approach outperforms prior art by a significant margin on both established and our proposed benchmark while being faster in training and rendering. We provide qualitative illustrations below. Note that all results are rendered from a &lt;em&gt;single&lt;/em&gt; model trained on &lt;em&gt;multiple&lt;/em&gt; sequences.&lt;/p&gt;
+&lt;div style=&#34;display: flex;&#34;&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+    &lt;img src=&#34;comparison/suds/01009_rgb.jpg&#34; alt=&#34;SUDS&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/ours/01009_rgb.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/gt/01009_rgb.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+      &lt;img src=&#34;comparison/suds/01009_depth.jpg&#34; alt=&#34;SUDS&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/ours/01009_depth.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/gt/01009_depth.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&#34;display: flex;&#34;&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+    &lt;img src=&#34;comparison/suds/00073_rgb.jpg&#34; alt=&#34;SUDS&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/ours/00073_rgb.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/gt/00073_rgb.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+      &lt;img src=&#34;comparison/suds/00073_depth.jpg&#34; alt=&#34;SUDS&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/ours/00073_depth.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/gt/00073_depth.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&#34;display: flex;&#34;&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+    &lt;img src=&#34;comparison/suds/00564_rgb.jpg&#34; alt=&#34;SUDS&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/ours/00564_rgb.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+    &lt;img src=&#34;comparison/gt/00564_rgb.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+  &lt;div class=&#34;twentytwenty-container&#34; style=&#34;width: 49%;&#34;&gt;
+      &lt;img src=&#34;comparison/suds/00564_depth.jpg&#34; alt=&#34;SUDS&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/ours/00564_depth.jpg&#34; alt=&#34;Ours&#34; class=&#34;img-responsive&#34;&gt;
+      &lt;img src=&#34;comparison/gt/00564_depth.jpg&#34; alt=&#34;GT&#34; class=&#34;img-responsive&#34;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;poster&#34;&gt;Poster&lt;/h3&gt;
+&lt;script type=&#34;text/javascript&#34; src= &#39;/js/pdf-js/build/pdf.js&#39;&gt;&lt;/script&gt;
+
+&lt;style&gt;
+  #embed-pdf-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 20vh;
+     
+  }
+  
+  .pdf-canvas {
+    border: 1px solid black;
+    direction: ltr;
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+  
+  #the-canvas {
+    border: 1px solid black;
+    direction: ltr;
+    width: 100%;
+    height: auto;
+    display: none;
+  }
+  
+  
+  .pdf-loadingWrapper {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 350px;
+  }
+  
+  .pdf-loading {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #d2d0d0;;
+    border-radius: 50%;
+    border-top-color: #383838;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+  
+  
+  
+  
+  
+  #overlayText {
+    word-wrap: break-word;
+    display: grid;
+    justify-content: end;
+  }
+  
+  #overlayText a {
+    position: relative;
+    top: 10px;
+    right: 4px;
+    color: #000;
+    margin: auto;
+    background-color: #eeeeee;
+    padding: 0.3em 1em;
+    border: solid 2px;
+    border-radius: 12px;
+    border-color: #00000030;
+    text-decoration: none;
+  }
+  
+  #overlayText svg {
+    height: clamp(1em, 2vw, 1.4em);
+    width:  clamp(1em, 2vw, 1.4em);
+  }
+  
+  
+  
+  @keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  @-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  &lt;/style&gt;&lt;div class=&#34;embed-pdf-container&#34; id=&#34;embed-pdf-container-02052118&#34;&gt;
+    &lt;div class=&#34;pdf-loadingWrapper&#34; id=&#34;pdf-loadingWrapper-02052118&#34;&gt;
+        &lt;div class=&#34;pdf-loading&#34; id=&#34;pdf-loading-02052118&#34;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&#34;overlayText&#34;&gt;
+      &lt;a href=&#34;poster.pdf&#34; aria-label=&#34;Download&#34; download&gt;
+        &lt;svg aria-hidden=&#34;true&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 18 18&#34;&gt;
+            &lt;path d=&#34;M9 13c.3 0 .5-.1.7-.3L15.4 7 14 5.6l-4 4V1H8v8.6l-4-4L2.6 7l5.7 5.7c.2.2.4.3.7.3zm-7 2h14v2H2z&#34; /&gt;
+        &lt;/svg&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;canvas class=&#34;pdf-canvas&#34; id=&#34;pdf-canvas-02052118&#34;&gt;&lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;pdf-paginator&#34; id=&#34;pdf-paginator-02052118&#34;&gt;
+    &lt;button id=&#34;pdf-prev-02052118&#34;&gt;Previous&lt;/button&gt;
+    &lt;button id=&#34;pdf-next-02052118&#34;&gt;Next&lt;/button&gt; &amp;nbsp; &amp;nbsp;
+    &lt;span&gt;
+      &lt;span class=&#34;pdf-pagenum&#34; id=&#34;pdf-pagenum-02052118&#34;&gt;&lt;/span&gt; / &lt;span class=&#34;pdf-pagecount&#34; id=&#34;pdf-pagecount-02052118&#34;&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;a class=&#34;pdf-source&#34; id=&#34;pdf-source-02052118&#34; href=&#34;poster.pdf&#34;&gt;[pdf]&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;noscript&gt;
+View the PDF file &lt;a class=&#34;pdf-source&#34; id=&#34;pdf-source-noscript-02052118&#34; href=&#34;poster.pdf&#34;&gt;here&lt;/a&gt;.
+&lt;/noscript&gt;
+
+&lt;script type=&#34;text/javascript&#34;&gt;
+    (function(){
+    var url = &#39;poster.pdf&#39;;
+
+    var hidePaginator = &#34;true&#34; === &#34;true&#34;;
+    var hideLoader = &#34;true&#34; === &#34;true&#34;;
+    var selectedPageNum = parseInt(&#34;&#34;) || 1;
+
+    
+    var pdfjsLib = window[&#39;pdfjs-dist/build/pdf&#39;];
+
+    
+    if (pdfjsLib.GlobalWorkerOptions.workerSrc == &#39;&#39;)
+      pdfjsLib.GlobalWorkerOptions.workerSrc = &#34;https:\/\/tobiasfshr.github.io\/&#34; + &#39;js/pdf-js/build/pdf.worker.js&#39;;
+
+    
+    var pdfDoc = null,
+        pageNum = selectedPageNum,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 3,
+        canvas = document.getElementById(&#39;pdf-canvas-02052118&#39;),
+        ctx = canvas.getContext(&#39;2d&#39;),
+        paginator = document.getElementById(&#34;pdf-paginator-02052118&#34;),
+        loadingWrapper = document.getElementById(&#39;pdf-loadingWrapper-02052118&#39;);
+
+
+    
+    showPaginator();
+    showLoader();
+
+    
+
+    function renderPage(num) {
+      pageRendering = true;
+      
+      pdfDoc.getPage(num).then(function(page) {
+        var viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        
+        var renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        
+        renderTask.promise.then(function() {
+          pageRendering = false;
+          showContent();
+
+          if (pageNumPending !== null) {
+            
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      
+      document.getElementById(&#39;pdf-pagenum-02052118&#39;).textContent = num;
+    }
+
+    
+
+    function showContent() {
+      loadingWrapper.style.display = &#39;none&#39;;
+      canvas.style.display = &#39;block&#39;;
+    }
+
+    
+
+    function showLoader() {
+      if(hideLoader) return
+      loadingWrapper.style.display = &#39;flex&#39;;
+      canvas.style.display = &#39;none&#39;;
+    }
+
+    
+
+    function showPaginator() {
+      if(hidePaginator) return
+      paginator.style.display = &#39;block&#39;;
+    }
+
+    
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    
+
+    function onPrevPage() {
+      if (pageNum &lt;= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById(&#39;pdf-prev-02052118&#39;).addEventListener(&#39;click&#39;, onPrevPage);
+
+    
+
+    function onNextPage() {
+      if (pageNum &gt;= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById(&#39;pdf-next-02052118&#39;).addEventListener(&#39;click&#39;, onNextPage);
+
+    
+
+    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+      pdfDoc = pdfDoc_;
+      var numPages = pdfDoc.numPages;
+      document.getElementById(&#39;pdf-pagecount-02052118&#39;).textContent = numPages;
+
+      
+      if(pageNum &gt; numPages) {
+        pageNum = numPages
+      }
+
+      
+      renderPage(pageNum);
+    });
+    })();
+&lt;/script&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>R3D3: Dense 3D Reconstruction of Dynamic Scenes from Multiple Cameras</title>
+      <link>https://tobiasfshr.github.io/pub/r3d3/</link>
+      <pubDate>Sun, 01 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/r3d3/</guid>
+      <description>&lt;h3 id=&#34;demonstration-video&#34;&gt;Demonstration Video&lt;/h3&gt;
+
+
+    
+    &lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/lkU0lDq9HHw?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;
+      &gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Monocular Quasi-Dense 3D Object Tracking</title>
+      <link>https://tobiasfshr.github.io/pub/qd-3dt/</link>
+      <pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/qd-3dt/</guid>
+      <description>&lt;h3 id=&#34;video&#34;&gt;Video&lt;/h3&gt;
+
+
+    
+    &lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/VnbeIwJCHlk?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;
+      &gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Track to Reconstruct and Reconstruct to Track</title>
+      <link>https://tobiasfshr.github.io/pub/motsfusion/</link>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>https://tobiasfshr.github.io/pub/motsfusion/</guid>
+      <description>&lt;h3 id=&#34;video&#34;&gt;Video&lt;/h3&gt;
+
+
+    
+    &lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; allowfullscreen=&#34;allowfullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/PMOYkpBwE78?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;
+      &gt;&lt;/iframe&gt;
+    &lt;/div&gt;
+
+</description>
+    </item>
+    
+  </channel>
+</rss>
